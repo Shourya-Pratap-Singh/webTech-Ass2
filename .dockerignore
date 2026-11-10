@@ -1,0 +1,6 @@
+.git
+.gitignore
+.dist
+README.md
+Dockerfile
+render.yaml

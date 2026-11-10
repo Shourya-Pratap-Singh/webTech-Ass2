@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Institute Portal | Online Student Registration</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Top Decorative Banner -->
+    <div class="top-nav-bar no-print">
+        <div class="nav-container">
+            <div class="brand">
+                <i class="fa-solid fa-graduation-cap brand-icon"></i>
+                <div class="brand-text">
+                    <span class="brand-title">Apex Institute of Technology</span>
+                    <span class="brand-sub">Autonomous Institution • Admissions Portal 2026-27</span>
+                </div>
+            </div>
+            <div class="portal-badge">
+                <span class="pulse-dot"></span> Online Admissions Open
+            </div>
+        </div>
+    </div>
+
+    <main class="page-wrapper">
+        <!-- FORM CONTAINER -->
+        <div class="container" id="registrationSection">
+            <div class="form-card">
+                <!-- Header -->
+                <header class="card-header">
+                    <div class="header-tag">Academic Year 2026 - 2027</div>
+                    <h1 class="header-title">Online Candidate Registration</h1>
+                    <p class="header-desc">
+                        Please fill in the required academic and personal details below. Upon successful submission, your official Admission Registration Slip will be generated.
+                    </p>
+                    <div class="form-progress-bar">
+                        <div class="progress-step active" data-step="1"><i class="fa-solid fa-user"></i> Personal</div>
+                        <div class="progress-step" data-step="2"><i class="fa-solid fa-book-open"></i> Academic</div>
+                        <div class="progress-step" data-step="3"><i class="fa-solid fa-phone"></i> Contact</div>
+                        <div class="progress-step" data-step="4"><i class="fa-solid fa-circle-check"></i> Review</div>
+                    </div>
+                </header>
+
+                <!-- Alert Message Box -->
+                <div id="alertBox" class="alert-box" style="display: none;">
+                    <i class="alert-icon fa-solid fa-circle-info"></i>
+                    <span class="alert-text"></span>
+                </div>
+
+                <!-- Registration Form -->
+                <form id="registrationForm" action="process.php" method="POST" novalidate>
+                    <!-- SECTION 1: Personal Details -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-num">01</span>
+                            <div>
+                                <h3>Personal Information</h3>
+                                <p>Identity details as per official government photo ID / Matriculation certificate</p>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label for="fullName">Full Name <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-id-card"></i>
+                                    <input type="text" id="fullName" name="fullName" placeholder="e.g. Rahul Sharma" required minlength="3" maxlength="60">
+                                </div>
+                                <span class="error-msg" id="fullNameError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dob">Date of Birth <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-calendar-days"></i>
+                                    <input type="date" id="dob" name="dob" required>
+                                </div>
+                                <span class="error-msg" id="dobError"></span>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Gender <span class="required">*</span></label>
+                                <div class="radio-pill-group">
+                                    <label class="radio-pill">
+                                        <input type="radio" name="gender" value="Male" required>
+                                        <span><i class="fa-solid fa-mars"></i> Male</span>
+                                    </label>
+                                    <label class="radio-pill">
+                                        <input type="radio" name="gender" value="Female">
+                                        <span><i class="fa-solid fa-venus"></i> Female</span>
+                                    </label>
+                                    <label class="radio-pill">
+                                        <input type="radio" name="gender" value="Other">
+                                        <span><i class="fa-solid fa-genderless"></i> Other</span>
+                                    </label>
+                                </div>
+                                <span class="error-msg" id="genderError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="category">Category / Reservation</label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-users"></i>
+                                    <select id="category" name="category">
+                                        <option value="General">General / Open</option>
+                                        <option value="OBC">OBC (Other Backward Class)</option>
+                                        <option value="SC">SC (Scheduled Caste)</option>
+                                        <option value="ST">ST (Scheduled Tribe)</option>
+                                        <option value="EWS">Economically Weaker Section (EWS)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 2: Academic Program & Specialization -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-num">02</span>
+                            <div>
+                                <h3>Course & Qualification</h3>
+                                <p>Select your desired undergraduate/postgraduate program and previous credentials</p>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label for="course">Program Applied For <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-laptop-code"></i>
+                                    <select id="course" name="course" required>
+                                        <option value="" disabled selected>-- Select Program --</option>
+                                        <optgroup label="Undergraduate (B.Tech / B.Sc / BCA)">
+                                            <option value="B.Tech Computer Science & Engineering">B.Tech - Computer Science & Engg.</option>
+                                            <option value="B.Tech AI & Data Science">B.Tech - Artificial Intelligence & Data Science</option>
+                                            <option value="B.Tech Electronics & Communication">B.Tech - Electronics & Communication</option>
+                                            <option value="BCA Cloud & Full Stack">BCA - Cloud & Full Stack Development</option>
+                                        </optgroup>
+                                        <optgroup label="Postgraduate (M.Tech / MCA / MBA)">
+                                            <option value="MCA Computer Applications">MCA - Master of Computer Applications</option>
+                                            <option value="M.Tech Software Engineering">M.Tech - Software Engineering</option>
+                                            <option value="MBA Technology Management">MBA - Technology & Business Analytics</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                                <span class="error-msg" id="courseError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="qualification">Highest Educational Qualification <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-award"></i>
+                                    <select id="qualification" name="qualification" required>
+                                        <option value="" disabled selected>-- Select Qualification --</option>
+                                        <option value="12th / Intermediate (Science / PCM)">12th / Intermediate (Science / PCM)</option>
+                                        <option value="12th / Intermediate (Commerce / Arts)">12th / Intermediate (Commerce / Arts)</option>
+                                        <option value="Polytechnic Diploma (Engineering)">Polytechnic Diploma (Engineering)</option>
+                                        <option value="Bachelor's Degree (B.Sc / BCA / B.Tech)">Bachelor's Degree (B.Sc / BCA / B.Tech)</option>
+                                        <option value="Master's Degree (M.Sc / MCA / M.Tech)">Master's Degree (M.Sc / MCA / M.Tech)</option>
+                                    </select>
+                                </div>
+                                <span class="error-msg" id="qualificationError"></span>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label for="percentage">Aggregate Percentage / CGPA <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-percent"></i>
+                                    <input type="number" id="percentage" name="percentage" placeholder="e.g. 88.5" step="0.01" min="35" max="100" required>
+                                </div>
+                                <span class="error-msg" id="percentageError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="passingYear">Year of Passing <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-clock-rotate-left"></i>
+                                    <select id="passingYear" name="passingYear" required>
+                                        <option value="" disabled selected>-- Select Year --</option>
+                                        <option value="2026">2026 (Appearing / Final Year)</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2021">2021</option>
+                                    </select>
+                                </div>
+                                <span class="error-msg" id="passingYearError"></span>
+                            </div>
+                        </div>
+
+                        <!-- Technical Interests / Elective Options -->
+                        <div class="form-group">
+                            <label>Areas of Technical Interest (Choose all that apply)</label>
+                            <div class="checkbox-tag-group">
+                                <label class="checkbox-tag">
+                                    <input type="checkbox" name="interests[]" value="Web & Cloud Development">
+                                    <span><i class="fa-solid fa-globe"></i> Web & Cloud</span>
+                                </label>
+                                <label class="checkbox-tag">
+                                    <input type="checkbox" name="interests[]" value="AI & Machine Learning">
+                                    <span><i class="fa-solid fa-brain"></i> AI & ML</span>
+                                </label>
+                                <label class="checkbox-tag">
+                                    <input type="checkbox" name="interests[]" value="Cybersecurity">
+                                    <span><i class="fa-solid fa-shield-halved"></i> Cybersecurity</span>
+                                </label>
+                                <label class="checkbox-tag">
+                                    <input type="checkbox" name="interests[]" value="Mobile App Dev">
+                                    <span><i class="fa-solid fa-mobile-screen"></i> Mobile Apps</span>
+                                </label>
+                                <label class="checkbox-tag">
+                                    <input type="checkbox" name="interests[]" value="DevOps & Systems">
+                                    <span><i class="fa-solid fa-server"></i> DevOps</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 3: Contact Details & Address -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-num">03</span>
+                            <div>
+                                <h3>Contact & Communication</h3>
+                                <p>Used for admission counseling alerts, merit lists, and verification</p>
+                            </div>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label for="email">Email Address <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-envelope"></i>
+                                    <input type="email" id="email" name="email" placeholder="student@example.com" required>
+                                </div>
+                                <span class="error-msg" id="emailError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-phone"></i>
+                                    <input type="tel" id="phone" name="phone" placeholder="e.g. 9876543210" pattern="[0-9]{10}" maxlength="10" required>
+                                </div>
+                                <span class="error-msg" id="phoneError"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Permanent Address <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="input-icon fa-solid fa-house textarea-icon"></i>
+                                <textarea id="address" name="address" rows="3" placeholder="House/Flat No., Street, Landmark..." required minlength="10" maxlength="250"></textarea>
+                            </div>
+                            <div class="char-count"><span id="addressCount">0</span>/250 characters</div>
+                            <span class="error-msg" id="addressError"></span>
+                        </div>
+
+                        <div class="grid-3">
+                            <div class="form-group">
+                                <label for="city">City <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-city"></i>
+                                    <input type="text" id="city" name="city" placeholder="e.g. Bengaluru" required>
+                                </div>
+                                <span class="error-msg" id="cityError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="state">State <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-map"></i>
+                                    <input type="text" id="state" name="state" placeholder="e.g. Karnataka" required>
+                                </div>
+                                <span class="error-msg" id="stateError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pincode">PIN Code <span class="required">*</span></label>
+                                <div class="input-wrapper">
+                                    <i class="input-icon fa-solid fa-map-pin"></i>
+                                    <input type="text" id="pincode" name="pincode" placeholder="6 digits" pattern="[0-9]{6}" maxlength="6" required>
+                                </div>
+                                <span class="error-msg" id="pincodeError"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 4: Declaration & Terms -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-num">04</span>
+                            <div>
+                                <h3>Declaration & Confirmation</h3>
+                                <p>Verify your details before final online submission</p>
+                            </div>
+                        </div>
+
+                        <div class="declaration-box">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="declaration" name="declaration" value="Yes" required>
+                                <span class="checkmark"></span>
+                                <span class="declaration-text">
+                                    I hereby declare that all statements made in this application are true, complete, and correct to the best of my knowledge and belief. I understand that any false information will result in cancellation of my candidature.
+                                </span>
+                            </label>
+                            <span class="error-msg" id="declarationError"></span>
+                        </div>
+                    </div>
+
+                    <!-- Action Controls -->
+                    <div class="form-actions">
+                        <button type="button" id="resetBtn" class="btn btn-secondary">
+                            <i class="fa-solid fa-rotate-left"></i> Clear Form
+                        </button>
+                        <button type="submit" id="submitBtn" class="btn btn-primary">
+                            <span class="btn-text"><i class="fa-solid fa-paper-plane"></i> Submit Application</span>
+                            <span class="btn-loader" style="display: none;">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i> Processing...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- SUCCESS / DISPLAY RECEIPT SECTION (Initially hidden, revealed on success) -->
+        <div class="container" id="successSection" style="display: none;">
+            <div id="receiptContainer">
+                <!-- Dynamically populated by jQuery / PHP response -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer no-print">
+        <div class="footer-container">
+            <p>© 2026 Apex Institute of Technology Admissions Board. All Rights Reserved.</p>
+            <p class="footer-tech">Engineered with HTML5, CSS3, JavaScript, jQuery & PHP</p>
+        </div>
+    </footer>
+
+    <!-- jQuery CDN with fallback -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="lib/jquery-3.7.1.min.js"><\/script>')</script>
+    <!-- Custom Application Logic -->
+    <script src="js/script.js"></script>
+</body>
+</html>
