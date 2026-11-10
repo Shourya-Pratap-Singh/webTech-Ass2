@@ -119,14 +119,14 @@ $(document).ready(function () {
                 }
                 break;
             }
-            case 'percentage': {
-                const val = parseFloat($('#percentage').val());
-                const $span = $('#percentageError');
-                if (isNaN(val) || val < 35 || val > 100) {
-                    markError($('#percentage'), $span, 'Score must be between 35% and 100%.');
+            case 'cgpa': {
+                const val = parseFloat($('#cgpa').val());
+                const $span = $('#cgpaError');
+                if (isNaN(val) || val < 1.0 || val > 10.0) {
+                    markError($('#cgpa'), $span, 'Please enter a valid CGPA between 1.00 and 10.00 (e.g. 9.00).');
                     isValid = false;
                 } else {
-                    markSuccess($('#percentage'), $span);
+                    markSuccess($('#cgpa'), $span);
                 }
                 break;
             }
@@ -221,12 +221,11 @@ $(document).ready(function () {
             }
         }
 
-        updateProgressBar();
         return isValid;
     }
 
     // Attach blur and change listeners for real-time validation
-    $('#fullName, #dob, #course, #qualification, #percentage, #passingYear, #email, #phone, #address, #city, #state, #pincode').on('blur change input', function () {
+    $('#fullName, #dob, #course, #qualification, #cgpa, #passingYear, #email, #phone, #address, #city, #state, #pincode').on('blur change input', function () {
         validateField($(this).attr('name'));
     });
 
@@ -239,19 +238,60 @@ $(document).ready(function () {
     });
 
     // --------------------------------------------------------------------------
-    // 3. Progress Step Tracker
+    // 3. Step Click Navigation & ScrollSpy
     // --------------------------------------------------------------------------
-    function updateProgressBar() {
-        const step1 = $('#fullName').val().trim() && $('#dob').val() && $('input[name="gender"]:checked').length;
-        const step2 = $('#course').val() && $('#qualification').val() && $('#percentage').val() && $('#passingYear').val();
-        const step3 = $('#email').val().trim() && $('#phone').val().trim() && $('#address').val().trim() && $('#city').val() && $('#state').val() && $('#pincode').val();
-        const step4 = $('#declaration').is(':checked');
+    const stepTargets = {
+        1: '#section-personal',
+        2: '#section-academic',
+        3: '#section-contact',
+        4: '#section-review'
+    };
 
-        $('.progress-step[data-step="1"]').toggleClass('active', Boolean(step1));
-        $('.progress-step[data-step="2"]').toggleClass('active', Boolean(step2));
-        $('.progress-step[data-step="3"]').toggleClass('active', Boolean(step3));
-        $('.progress-step[data-step="4"]').toggleClass('active', Boolean(step4));
-    }
+    // Click handler for step navigation in top bar
+    $('.progress-step').on('click keydown', function (e) {
+        if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') {
+            return;
+        }
+        e.preventDefault();
+        const step = $(this).data('step');
+        const targetSelector = stepTargets[step];
+
+        if (targetSelector && $(targetSelector).length) {
+            $('.progress-step').removeClass('active');
+            $(this).addClass('active');
+
+            $('html, body').stop().animate({
+                scrollTop: $(targetSelector).offset().top - 90
+            }, 350);
+
+            $(targetSelector).find('input, select, textarea').filter(':visible').first().focus();
+        }
+    });
+
+    // ScrollSpy: Automatically highlight active section on scroll
+    $(window).on('scroll', function () {
+        const scrollPos = $(window).scrollTop() + 150;
+        $('.form-section').each(function () {
+            const top = $(this).offset().top;
+            const bottom = top + $(this).outerHeight();
+            if (scrollPos >= top && scrollPos < bottom) {
+                const step = $(this).data('step');
+                if (step) {
+                    $('.progress-step').removeClass('active');
+                    $('.progress-step[data-step="' + step + '"]').addClass('active');
+                }
+            }
+        });
+    });
+
+    // Focus listener: Highlight corresponding step when clicking inside a section
+    $('.form-section').on('focusin', function () {
+        const step = $(this).data('step');
+        if (step) {
+            $('.progress-step').removeClass('active');
+            $('.progress-step[data-step="' + step + '"]').addClass('active');
+        }
+    });
 
     // --------------------------------------------------------------------------
     // 4. Form Reset Button
@@ -265,6 +305,7 @@ $(document).ready(function () {
             $('.progress-step').removeClass('active');
             $('.progress-step[data-step="1"]').addClass('active');
             $alertBox.hide();
+            $('html, body').animate({ scrollTop: 0 }, 300);
         }
     });
 
@@ -277,7 +318,7 @@ $(document).ready(function () {
         // Validate all fields
         const fields = [
             'fullName', 'dob', 'gender', 'course', 'qualification',
-            'percentage', 'passingYear', 'email', 'phone',
+            'cgpa', 'passingYear', 'email', 'phone',
             'address', 'city', 'state', 'pincode', 'declaration'
         ];
 

@@ -66,7 +66,7 @@ $gender        = sanitize_input($_POST['gender'] ?? '');
 $category      = sanitize_input($_POST['category'] ?? 'General');
 $course        = sanitize_input($_POST['course'] ?? '');
 $qualification = sanitize_input($_POST['qualification'] ?? '');
-$percentage    = filter_var($_POST['percentage'] ?? '', FILTER_VALIDATE_FLOAT);
+$cgpa          = filter_var($_POST['cgpa'] ?? '', FILTER_VALIDATE_FLOAT);
 $passingYear   = sanitize_input($_POST['passingYear'] ?? '');
 $email         = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
 $phone         = sanitize_input($_POST['phone'] ?? '');
@@ -113,8 +113,8 @@ if (empty($qualification)) {
     $errors['qualification'] = 'Please select highest educational qualification.';
 }
 
-if ($percentage === false || $percentage < 35 || $percentage > 100) {
-    $errors['percentage'] = 'Please enter a valid percentage/CGPA between 35 and 100.';
+if ($cgpa === false || $cgpa < 1.0 || $cgpa > 10.0) {
+    $errors['cgpa'] = 'Please enter a valid CGPA between 1.00 and 10.00 (e.g. 9.00).';
 }
 
 if (empty($passingYear)) {
@@ -203,7 +203,7 @@ $formattedDob = date('d M Y', strtotime($dob));
 $interestsString = !empty($interests) ? implode(', ', $interests) : 'None Specified';
 
 // Helper function to build the receipt HTML card
-function render_receipt_html($regNumber, $submissionTime, $fullName, $formattedDob, $gender, $category, $course, $qualification, $percentage, $passingYear, $interests, $email, $phone, $address, $city, $state, $pincode) {
+function render_receipt_html($regNumber, $submissionTime, $fullName, $formattedDob, $gender, $category, $course, $qualification, $cgpa, $passingYear, $interests, $email, $phone, $address, $city, $state, $pincode) {
     ob_start();
     ?>
     <div class="receipt-wrapper" id="printableReceipt">
@@ -278,8 +278,8 @@ function render_receipt_html($regNumber, $submissionTime, $fullName, $formattedD
                     <span class="field-value"><?= $qualification ?></span>
                 </div>
                 <div class="receipt-field">
-                    <span class="field-label">Aggregate Score / CGPA</span>
-                    <span class="field-value"><?= number_format($percentage, 2) ?>%</span>
+                    <span class="field-label">Cumulative GPA (CGPA)</span>
+                    <span class="field-value" style="color: #4f46e5;"><?= number_format($cgpa, 2) ?> / 10.00</span>
                 </div>
                 <div class="receipt-field">
                     <span class="field-label">Passing Year</span>
@@ -354,7 +354,7 @@ $receiptHtml = render_receipt_html(
     $category,
     $course,
     $qualification,
-    $percentage,
+    $cgpa,
     $passingYear,
     $interests,
     $email,

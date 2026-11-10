@@ -230,29 +230,46 @@ body {
 .form-progress-bar {
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 12px;
     flex-wrap: wrap;
-    padding-top: 10px;
+    padding-top: 14px;
     border-top: 1px dashed var(--border);
 }
 
 .progress-step {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: var(--muted);
-    padding: 6px 14px;
+    color: #475569;
+    padding: 8px 18px;
     border-radius: 999px;
     background: #f1f5f9;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    transition: var(--transition);
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    border: 1.5px solid transparent;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-step:hover {
+    background: #e2e8f0;
+    color: var(--dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.progress-step:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
 }
 
 .progress-step.active {
-    background: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+    background: var(--primary) !important;
+    color: #ffffff !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4) !important;
+    transform: translateY(-1px);
 }
 
 /* --------------------------------------------------------------------------

@@ -22,8 +22,8 @@
             <div class="brand">
                 <i class="fa-solid fa-graduation-cap brand-icon"></i>
                 <div class="brand-text">
-                    <span class="brand-title">Apex Institute of Technology</span>
-                    <span class="brand-sub">Autonomous Institution • Admissions Portal 2026-27</span>
+                    <span class="brand-title">Pravinya Institute of Technology</span>
+                    <span class="brand-sub">Autonomous Institution</span>
                 </div>
             </div>
             <div class="portal-badge">
@@ -44,10 +44,10 @@
                         Please fill in the required academic and personal details below. Upon successful submission, your official Admission Registration Slip will be generated.
                     </p>
                     <div class="form-progress-bar">
-                        <div class="progress-step active" data-step="1"><i class="fa-solid fa-user"></i> Personal</div>
-                        <div class="progress-step" data-step="2"><i class="fa-solid fa-book-open"></i> Academic</div>
-                        <div class="progress-step" data-step="3"><i class="fa-solid fa-phone"></i> Contact</div>
-                        <div class="progress-step" data-step="4"><i class="fa-solid fa-circle-check"></i> Review</div>
+                        <div class="progress-step active" data-step="1" role="button" tabindex="0"><i class="fa-solid fa-user"></i> Personal</div>
+                        <div class="progress-step" data-step="2" role="button" tabindex="0"><i class="fa-solid fa-book-open"></i> Academic</div>
+                        <div class="progress-step" data-step="3" role="button" tabindex="0"><i class="fa-solid fa-phone"></i> Contact</div>
+                        <div class="progress-step" data-step="4" role="button" tabindex="0"><i class="fa-solid fa-circle-check"></i> Review</div>
                     </div>
                 </header>
 
@@ -60,7 +60,7 @@
                 <!-- Registration Form -->
                 <form id="registrationForm" action="process.php" method="POST" novalidate>
                     <!-- SECTION 1: Personal Details -->
-                    <div class="form-section">
+                    <div class="form-section" id="section-personal" data-step="1">
                         <div class="section-title">
                             <span class="section-num">01</span>
                             <div>
@@ -126,7 +126,7 @@
                     </div>
 
                     <!-- SECTION 2: Academic Program & Specialization -->
-                    <div class="form-section">
+                    <div class="form-section" id="section-academic" data-step="2">
                         <div class="section-title">
                             <span class="section-num">02</span>
                             <div>
@@ -142,10 +142,10 @@
                                     <i class="input-icon fa-solid fa-laptop-code"></i>
                                     <select id="course" name="course" required>
                                         <option value="" disabled selected>-- Select Program --</option>
-                                        <optgroup label="Undergraduate (B.Tech / B.Sc / BCA)">
-                                            <option value="B.Tech Computer Science & Engineering">B.Tech - Computer Science & Engg.</option>
-                                            <option value="B.Tech AI & Data Science">B.Tech - Artificial Intelligence & Data Science</option>
-                                            <option value="B.Tech Electronics & Communication">B.Tech - Electronics & Communication</option>
+                                        <optgroup label="Undergraduate (B.Tech / B.E / B.Sc / BCA)">
+                                            <option value="B.E Computer Science & Engineering">B.E - Computer Science & Engg.</option>
+                                            <option value="B.E AI & Data Science">B.E - Artificial Intelligence & Data Science</option>
+                                            <option value="B.E Electronics & Communication">B.E - Electronics & Communication</option>
                                             <option value="BCA Cloud & Full Stack">BCA - Cloud & Full Stack Development</option>
                                         </optgroup>
                                         <optgroup label="Postgraduate (M.Tech / MCA / MBA)">
@@ -177,12 +177,13 @@
 
                         <div class="grid-2">
                             <div class="form-group">
-                                <label for="percentage">Aggregate Percentage / CGPA <span class="required">*</span></label>
+                                <label for="cgpa">Cumulative GPA (CGPA) <span class="required">*</span></label>
                                 <div class="input-wrapper">
-                                    <i class="input-icon fa-solid fa-percent"></i>
-                                    <input type="number" id="percentage" name="percentage" placeholder="e.g. 88.5" step="0.01" min="35" max="100" required>
+                                    <i class="input-icon fa-solid fa-graduation-cap"></i>
+                                    <input type="number" id="cgpa" name="cgpa" placeholder="e.g. 9.00" step="0.01" min="1.00" max="10.00" required>
                                 </div>
-                                <span class="error-msg" id="percentageError"></span>
+                                <div style="font-size: 0.74rem; color: #64748b; margin-top: 4px;">Scale: 1.00 to 10.00 (e.g. 9.00)</div>
+                                <span class="error-msg" id="cgpaError"></span>
                             </div>
 
                             <div class="form-group">
@@ -191,12 +192,12 @@
                                     <i class="input-icon fa-solid fa-clock-rotate-left"></i>
                                     <select id="passingYear" name="passingYear" required>
                                         <option value="" disabled selected>-- Select Year --</option>
-                                        <option value="2026">2026 (Appearing / Final Year)</option>
-                                        <option value="2025">2025</option>
-                                        <option value="2024">2024</option>
-                                        <option value="2023">2023</option>
-                                        <option value="2022">2022</option>
-                                        <option value="2021">2021</option>
+                                        <option value="2026">2028 (Final Year)</option>
+                                        <option value="2025">2027</option>
+                                        <option value="2024">2026</option>
+                                        <option value="2023">2025</option>
+                                        <option value="2022">2024</option>
+                                        <option value="2021">2023</option>
                                     </select>
                                 </div>
                                 <span class="error-msg" id="passingYearError"></span>
@@ -232,7 +233,7 @@
                     </div>
 
                     <!-- SECTION 3: Contact Details & Address -->
-                    <div class="form-section">
+                    <div class="form-section" id="section-contact" data-step="3">
                         <div class="section-title">
                             <span class="section-num">03</span>
                             <div>
@@ -302,7 +303,7 @@
                     </div>
 
                     <!-- SECTION 4: Declaration & Terms -->
-                    <div class="form-section">
+                    <div class="form-section" id="section-review" data-step="4">
                         <div class="section-title">
                             <span class="section-num">04</span>
                             <div>
