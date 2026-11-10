@@ -197,7 +197,7 @@ if (!empty($errors)) {
 }
 
 // Generate application registration credentials
-$regNumber = 'APEX-2026-' . strtoupper(substr(md5(uniqid((string)mt_rand(), true)), 0, 6));
+$regNumber = 'PIT-2026-' . strtoupper(substr(md5(uniqid((string)mt_rand(), true)), 0, 6));
 $submissionTime = date('d F Y, h:i:s A');
 $formattedDob = date('d M Y', strtotime($dob));
 $interestsString = !empty($interests) ? implode(', ', $interests) : 'None Specified';
@@ -210,7 +210,7 @@ function render_receipt_html($regNumber, $submissionTime, $fullName, $formattedD
         <!-- Receipt Header -->
         <div class="receipt-banner">
             <div class="receipt-brand">
-                <h2>Apex Institute of Technology</h2>
+                <h2>Pravinya Institute of Technology</h2>
                 <p>Office of the Registrar • Admissions & Merit Examination Cell</p>
                 <p style="font-size: 0.72rem; color: #93c5fd; margin-top: 2px;">Accredited Autonomous Technical Institution (NAAC 'A++' Grade)</p>
             </div>
@@ -403,7 +403,7 @@ if ($is_ajax) {
             <div class="brand">
                 <i class="fa-solid fa-graduation-cap brand-icon"></i>
                 <div class="brand-text">
-                    <span class="brand-title">Apex Institute of Technology</span>
+                    <span class="brand-title">Pravinya Institute of Technology</span>
                     <span class="brand-sub">Admissions Portal 2026-27</span>
                 </div>
             </div>
@@ -421,7 +421,7 @@ if ($is_ajax) {
 
     <footer class="site-footer no-print">
         <div class="footer-container">
-            <p>© 2026 Apex Institute of Technology. All Rights Reserved.</p>
+            <p>© 2026 Pravinya Institute of Technology. All Rights Reserved.</p>
             <p class="footer-tech">Engineered with HTML5, CSS3, JavaScript, jQuery & PHP</p>
         </div>
     </footer>
