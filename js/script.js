@@ -13,6 +13,10 @@ $(document).ready(function () {
     const $registrationSection = $('#registrationSection');
     const $successSection = $('#successSection');
     const $receiptContainer = $('#receiptContainer');
+    // If opened through Five Server (port 5500), dynamically set the form action to the PHP server
+    if (window.location.port && window.location.port !== '8000' && window.location.port !== '80' && window.location.port !== '443') {
+        $form.attr('action', 'http://127.0.0.1:8000/process.php');
+    }
 
     // --------------------------------------------------------------------------
     // 1. Real-time Character Counter for Address
@@ -307,12 +311,19 @@ $(document).ready(function () {
         $btnText.hide();
         $btnLoader.show();
 
-        // Prepare serialized form data
-        const formData = $form.serialize();
+        // Determine backend endpoint dynamically
+        let targetUrl = 'process.php';
+        if (window.location.port && window.location.port !== '8000' && window.location.port !== '80' && window.location.port !== '443') {
+            // When previewed on Five Server / Live Server (e.g. port 5500), route to the running PHP server
+            targetUrl = 'http://127.0.0.1:8000/process.php';
+        }
+
+        // Prepare serialized form data with explicit AJAX flag
+        const formData = $form.serialize() + '&is_ajax_flag=1';
 
         // Send AJAX request to PHP backend
         $.ajax({
-            url: 'process.php',
+            url: targetUrl,
             type: 'POST',
             data: formData,
             dataType: 'json',

@@ -10,20 +10,45 @@
 // Set default timezone
 date_default_timezone_set('Asia/Kolkata');
 
+// Helper function for safe HTTP headers
+function safe_header($header) {
+    if (!headers_sent()) {
+        header($header);
+    }
+}
+
+function safe_response_code($code) {
+    if (!headers_sent()) {
+        http_response_code($code);
+    }
+}
+
+// Enable Cross-Origin Resource Sharing (CORS)
+safe_header('Access-Control-Allow-Origin: *');
+safe_header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+safe_header('Access-Control-Allow-Headers: Content-Type, X-Requested-With, Accept');
+
+// Handle preflight OPTIONS request
+$requestMethod = $_SERVER['REQUEST_METHOD'] ?? ($_SERVER['HTTP_METHOD'] ?? (!empty($_POST) ? 'POST' : 'GET'));
+if ($requestMethod === 'OPTIONS') {
+    safe_response_code(200);
+    exit(0);
+}
+
 // Helper function to sanitize input strings
 function sanitize_input($data) {
     if (is_array($data)) {
         return array_map('sanitize_input', $data);
     }
-    $data = trim($data);
+    $data = trim((string)$data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
     return $data;
 }
 
-// Check if request is POST
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
+// Check if request is POST (safe check to prevent undefined array key warnings)
+if ($requestMethod !== 'POST' && empty($_POST)) {
+    safe_response_code(405);
     echo "<h1>405 Method Not Allowed</h1><p>Please submit the form via POST method.</p>";
     exit;
 }
@@ -31,7 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Detect if this is an AJAX request from jQuery
 $is_ajax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
             strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') ||
-            (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false);
+            (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) ||
+            (!empty($_POST['is_ajax_flag']));
 
 // Retrieve and sanitize fields
 $fullName      = sanitize_input($_POST['fullName'] ?? '');
@@ -126,8 +152,8 @@ if (empty($declaration) || $declaration !== 'Yes') {
 // If validation fails
 if (!empty($errors)) {
     if ($is_ajax) {
-        http_response_code(422);
-        header('Content-Type: application/json; charset=utf-8');
+        safe_response_code(422);
+        safe_header('Content-Type: application/json; charset=utf-8');
         echo json_encode([
             'status' => 'error',
             'message' => 'Please fix the errors marked in the form.',
@@ -136,7 +162,7 @@ if (!empty($errors)) {
         exit;
     } else {
         // Fallback for non-AJAX POST with errors
-        http_response_code(422);
+        safe_response_code(422);
         ?>
         <!DOCTYPE html>
         <html lang="en">
@@ -171,7 +197,7 @@ if (!empty($errors)) {
 }
 
 // Generate application registration credentials
-$regNumber = 'APEX-2026-' . strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 6));
+$regNumber = 'APEX-2026-' . strtoupper(substr(md5(uniqid((string)mt_rand(), true)), 0, 6));
 $submissionTime = date('d F Y, h:i:s A');
 $formattedDob = date('d M Y', strtotime($dob));
 $interestsString = !empty($interests) ? implode(', ', $interests) : 'None Specified';
@@ -341,7 +367,7 @@ $receiptHtml = render_receipt_html(
 
 // If jQuery AJAX request, return structured JSON containing the rendered HTML & details
 if ($is_ajax) {
-    header('Content-Type: application/json; charset=utf-8');
+    safe_header('Content-Type: application/json; charset=utf-8');
     echo json_encode([
         'status'         => 'success',
         'message'        => 'Application registered successfully!',
